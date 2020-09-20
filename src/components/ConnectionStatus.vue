@@ -2,7 +2,7 @@
   <div class="level">
     <div class="dot level-item" :style="{ backgroundColor: statusColor }"></div>
     <div class="subtitle level-item" :style="{ color: status === 'error' ? '#ff2d57' : '#b5b5b5ff' }">
-      {{ error.message || error || statusText }}
+      {{ error || statusText }}
     </div>
   </div>
 
