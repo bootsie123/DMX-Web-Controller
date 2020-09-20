@@ -74,7 +74,7 @@
   }
 
   .background {
-    background-color: #f8faffff;
+    background-color: #fdfdfd;
   }
 
   .column {

@@ -20,7 +20,7 @@
 
 <style lang="scss" scoped>
   .hero {
-    background-image: radial-gradient(#a7a7a73b 7%, #ffffff00 0%), linear-gradient(#f8faffff 0%, #f8faffff 100%);
+    background-image: radial-gradient(#a7a7a73b 7%, #ffffff00 0%), linear-gradient(#fdfdfd 0%, #fdfdfd 100%);
     background-repeat: repeat, no-repeat;
     background-size: 50px 50px, cover;
   }

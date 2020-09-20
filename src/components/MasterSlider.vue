@@ -3,9 +3,11 @@
     <h1 class="title">MASTER</h1>
     <vue-slider
       class="slider"
-      v-model="value"
+      :value="value"
+      @change="update_master"
       direction="btt"
       :max="100"
+      tooltip="always"
       :tooltip-formatter="formatter"
       height="350px"
     ></vue-slider>
@@ -17,9 +19,19 @@
     name: "MasterSlider",
     data() {
       return {
-        value: 0,
+
         formatter: "{value}%"
       };
+    },
+    computed: {
+      value() {
+        return this.$store.state.settings.master;
+      }
+    },
+    methods: {
+      update_master(event) {
+        this.$store.dispatch("settings/update_master", event);
+      }
     }
   }
 </script>

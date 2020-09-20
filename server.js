@@ -38,6 +38,14 @@ mongoose.connect(DB, {
   for (let route of routes) {
     app.use("/" + route.split(".")[0], require("./server/routes/" + route));
   }
+
+  app.use((err, req, res, next) => {
+    console.error(err);
+
+    errorHandler(res, "Interal server error");
+  });
+
+  app.listen(PORT, () => console.info(`Server running on port ${PORT}`));
 })
   .catch(err => console.error("Error setting up connection to MongoDB", err));
 
@@ -71,11 +79,3 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passportConfig(passport);
-
-app.use((err, req, res, next) => {
-  console.error(err);
-
-  errorHandler(res, "Interal server error");
-});
-
-app.listen(PORT, () => console.info(`Server running on port ${PORT}`));

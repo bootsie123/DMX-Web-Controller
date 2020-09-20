@@ -1,17 +1,36 @@
 <template>
   <div>
     <h1 class="title">COLOR PICKER</h1>
-    <RadialColorPicker class="colorPicker" variant="persistent"></RadialColorPicker>
+    <RadialColorPicker
+      class="colorPicker"
+      :hue="hue"
+      @input="update_hue"
+      :luminosity="luminosity"
+      :saturation="saturation"
+      :alpha="alpha"
+      variant="persistent"
+    >
+    </RadialColorPicker>
   </div>
 </template>
 
 <script>
+  import { mapGetters } from "vuex";
+
   import RadialColorPicker from "@radial-color-picker/vue-color-picker";
 
   export default {
     name: "ColorPicker",
     components: {
       RadialColorPicker
+    },
+    computed: {
+      ...mapGetters("settings", [ "hue", "saturation", "luminosity", "alpha" ])
+    },
+    methods: {
+      update_hue(event) {
+        this.$store.dispatch("settings/update_hue", event);
+      }
     }
   }
 </script>
