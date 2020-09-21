@@ -18,12 +18,12 @@ http.interceptors.response.use(res => {
   if (err.response) {
     return Promise.reject(err.response);
   } else if (err.request) {
-    console.error(err.request);
+    //console.error(err.request);
   } else {
     console.error("Error", err.message);
   }
 
-  console.error(err.config);
+  //console.error(err.config);
 
   return Promise.reject(err);
 });
