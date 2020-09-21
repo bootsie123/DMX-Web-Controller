@@ -106,18 +106,18 @@ router.post("/", [ rateLimiterIpMiddleware, cleanBody ], async (req, res, next) 
   @desc Signs a new access token with a refresh token
   @access Private
 */
-router.post("/token", [ auth, cleanBody ], async (req, res, next) => {
+router.post("/token", cleanBody, async (req, res, next) => {
   const refreshToken = req.body.refreshToken;
 
   if (!refreshToken) return errorHandler(res, 400, "No refresh token");
 
   try {
     const decodedToken = AuthToken.decodeToken(refreshToken);
-    const authToken = await AuthToken.findOne({ user: decodedToken.user.id, refreshToken });
+    const authToken = await AuthToken.findOne({ user: decodedToken.user.id, refreshToken }).populate("user");
 
     if (!authToken || authToken.expireAt < Date.now()) return errorHandler(res, 403, "Refresh token expired");
 
-    const newAccessToken = req.user.signAccessToken();
+    const newAccessToken = authToken.user.signAccessToken();
     const newRefreshToken = await authToken.signRefreshToken();
 
     res.set({ "x-auth-token": newAccessToken, "authorization": "Bearer " + newAccessToken });

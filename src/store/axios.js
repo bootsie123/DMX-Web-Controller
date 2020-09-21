@@ -44,14 +44,10 @@ http.interceptors.response.use(res => {
   if (err.status === 401 && !originalRequest._retry) {
     originalRequest._retry = true;
 
-    const data = {
-      refreshToken: localStorage.getItem("refreshToken")
-    }
-
-    return http.post("auth/token", data)
+    return store.dispatch("auth/refreshAuth")
       .then(res => {
         if (res.status === 200) {
-          store.commit("auth/login_success", res.data);
+          originalRequest.headers["x-auth-token"] = res.data.accessToken;
 
           return http(originalRequest);
         }

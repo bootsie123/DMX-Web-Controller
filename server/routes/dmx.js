@@ -12,7 +12,7 @@ const router = express.Router();
 // @route GET api/dmx
 // @desc Gets the DMX settings for a universe
 // @access private
-router.get("/", auth({optional: true}), async (req, res, next) => {
+router.get("/", auth, async (req, res, next) => {
   try {
     const dmx = await OLAAPI.getDMX(1);
 

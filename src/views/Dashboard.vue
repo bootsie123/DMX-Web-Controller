@@ -44,6 +44,9 @@
       RGBSliders,
       MasterSlider,
       WheelSliders
+    },
+    created() {
+      this.$store.dispatch("settings/initialize");
     }
   };
 </script>

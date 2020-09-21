@@ -1,3 +1,5 @@
+import jwt_decode from "jwt-decode";
+
 import axios from "../axios";
 
 const state = {
@@ -7,7 +9,8 @@ const state = {
     refreshToken: localStorage.getItem("refreshToken") || ""
   },
   status: "",
-  error: null
+  error: null,
+  refreshTask: null
 };
 
 const getters = {
@@ -17,14 +20,14 @@ const getters = {
 };
 
 const actions = {
-  async login({ commit }, user) {
+  async login({ dispatch, commit }, user) {
     try {
       commit("auth_request");
 
       const res = await axios.post("auth", user);
 
       if (res.data.status === 200) {
-        commit("login_success", res.data);
+        dispatch("login_success", res.data);
       }
 
       return res;
@@ -34,14 +37,14 @@ const actions = {
       return Promise.reject(err);
     }
   },
-  async signup({ commit }, user) {
+  async signup({ dispatch, commit }, user) {
     try {
       commit("auth_request");
 
       const res = await axios.post("users", user);
 
       if (res.data.status === 200) {
-        commit("login_success", res.data);
+        dispatch("login_success", res.data);
       }
 
       return res;
@@ -50,6 +53,42 @@ const actions = {
 
       return Promise.reject(err);
     }
+  },
+  async refreshAuth({ dispatch, commit }) {
+    try {
+      const data = {
+        refreshToken: this.state.auth.tokens.refreshToken
+      };
+
+      const res = await axios.post("auth/token", data);
+
+      if (res.status === 200) {
+        commit("auth_success", res.data);
+        dispatch("create_refreshTask", res.data.accessToken);
+      }
+
+      return res;
+    } catch (err) {
+      console.error(err);
+
+      return Promise.reject(err);
+    }
+  },
+  login_success({ dispatch, commit }, data) {
+    dispatch("create_refreshTask", data.accessToken);
+    commit("auth_success", data);
+  },
+  create_refreshTask({ dispatch, commit }, accessToken) {
+    const decodedToken = jwt_decode(accessToken);
+    const timeUntilRefresh = decodedToken.exp - Date.now() / 1000 - 15 * 60;
+
+    const refreshTask = setTimeout(() => {
+      console.log("Task Refresh");
+
+      dispatch("refreshAuth");
+    }, timeUntilRefresh);
+
+    commit("set_refreshTask", refreshTask);
   }
 };
 
@@ -58,7 +97,7 @@ const mutations = {
     state.error = null;
     state.status = "loading";
   },
-  login_success(state, { accessToken, refreshToken }) {
+  auth_success(state, { accessToken, refreshToken }) {
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
 
@@ -75,6 +114,10 @@ const mutations = {
     state.status = "error";
   },
   logout(state) {
+    if (state.refreshTask) {
+      clearTimeout(state.refreshTask);
+    }
+
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
 
@@ -86,7 +129,15 @@ const mutations = {
     state.tokens.refreshToken = "";
 
     state.error = null;
+    state.refreshTask = null;
     state.status = "";
+  },
+  set_refreshTask(state, refreshTask) {
+    if (state.refreshTask) {
+      clearTimeout(state.refreshTask);
+    }
+
+    state.refreshTask = refreshTask;
   }
 };
 

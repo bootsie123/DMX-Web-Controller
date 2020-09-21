@@ -15,7 +15,7 @@ const AuthTokenSchema = new Schema({
   refreshToken: {
     type: String,
     default: function() {
-      return AuthTokenSchema.statics.signRefreshToken(this.userId);
+      return AuthTokenSchema.statics.signRefreshToken(this.user._id);
     },
     required: true
   },

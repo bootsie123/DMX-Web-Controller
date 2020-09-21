@@ -22,6 +22,24 @@ const getters = {
 };
 
 const actions = {
+  async initialize({ dispatch, commit }) {
+    try {
+      commit("update_start");
+
+      const res = await axios.get("dmx");
+
+      if (res.data.status === 200) {
+        const dmx = res.data.dmx.dmx;
+
+        dispatch("RGB_to_HSLA", { red: dmx[0], green: dmx[1], blue: dmx[2] });
+        dispatch("update_master", dmx[3]);
+      }
+
+      commit("update_end");
+    } catch (err) {
+      commit("update_end");
+    }
+  },
   RGB_to_HSLA({ dispatch }, obj) {
     const HSLA = toHSLAFromRGB(obj).hsla;
 
