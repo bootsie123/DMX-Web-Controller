@@ -80,7 +80,9 @@ const actions = {
   },
   create_refreshTask({ dispatch, commit }, accessToken) {
     const decodedToken = jwt_decode(accessToken);
-    const timeUntilRefresh = decodedToken.exp - Date.now() / 1000 - 15 * 60;
+    const timeUntilRefresh = (decodedToken.exp - Date.now() / 1000 - 5 * 60) * 1000;
+
+    console.log(timeUntilRefresh, decodedToken, decodedToken.exp, Date.now());
 
     const refreshTask = setTimeout(() => {
       console.log("Task Refresh");
