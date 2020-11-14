@@ -15,36 +15,51 @@
     name: "ConnectionStatus",
     data() {
       return {
-        statusText: "Last updated 5 minutes ago",
+        timeLapsed: 0,
         statusColors: {
           online: "#00e852",
           offline: "#cccccc",
           warning: "#ffa12d",
           error: "#ff2d57"
-        },
-        polling: null
+        }
       };
     },
     computed: {
       statusColor() {
         return this.statusColors[this.status];
       },
+      statusText() {
+        console.log(this.timeLapsed);
+
+        let time;
+        let label;
+
+        if (this.timeLapsed < 60000) {
+          return "Last updated now";
+        } else if (this.timeLapsed < 60 * 60000) {
+          time = Math.floor(this.timeLapsed / 60000);
+          label = time > 1 ? "minutes" : "minute";
+        } else {
+          time = Math.floor(this.timeLapsed / 60 * 60000);
+          label = time > 1 ? "hours" : "hour";
+        }
+
+        return `Last updated ${ time } ${ label } ago`;
+      },
       ...mapGetters("status", [ "status", "lastUpdate", "error" ])
     },
-    methods: {
-      pollStatus() {
-        this.$store.dispatch("status/check_status");
-
-        setInterval(() => {
-          this.$store.dispatch("status/check_status");
-        }, 5000);
+    sockets: {
+      authenticated() {
+        this.$socket.emit("status");
       }
     },
-    beforeDestroy() {
-      clearInterval(this.polling);
+    mounted() {
+      this.interval = setInterval(() => {
+        this.timeLapsed = Date.now() - this.lastUpdate;
+      }, 10000);
     },
-    created() {
-      this.pollStatus();
+    destroyed() {
+      clearInterval(this.interval);
     }
   }
 </script>

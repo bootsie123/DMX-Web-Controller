@@ -20,9 +20,9 @@ function fetch(url, form, method = "GET", headers = defaultHeaders) {
   }
 
   return request(options);
-};
+}
 
-exports.serverStats = universe => {
+exports.serverStats = () => {
   return new Promise((resolve, reject) => {
     fetch("json/server_stats")
       .then(resolve)

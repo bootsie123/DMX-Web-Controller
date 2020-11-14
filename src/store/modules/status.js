@@ -1,8 +1,8 @@
-import axios from "../axios";
+//import axios from "../axios";
 
 const state = {
-  status: "offline",
-  lastUpdate: "",
+  status: "online",
+  lastUpdate: Date.now(),
   error: null
 };
 
@@ -13,23 +13,11 @@ const getters = {
 };
 
 const actions = {
-  async check_status({ commit }) {
-    try {
-      const res = await axios.get("test");
 
-      if (res.data.status === 200) {
-        commit("update_status", "online");
-      }
-
-      return res;
-    } catch (err) {
-      commit("error", err);
-    }
-  }
 };
 
 const mutations = {
-  update_status(state, status) {
+  SOCKET_status(state, status) {
     state.error = null;
     state.status = status;
     state.lastUpdate = Date.now();

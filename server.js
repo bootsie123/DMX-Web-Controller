@@ -1,5 +1,6 @@
 const config = require("./server/config");
 const express = require("express");
+const http = require("http");
 const session = require("express-session");
 const mongoSanitzie = require("express-mongo-sanitize");
 const MongoStore = require("connect-mongo")(session);
@@ -14,10 +15,11 @@ const expressConfig = config.express;
 
 const passportConfig = require("./server/config/passport");
 
-const nodeErrorHandler = require("./server/handlers/nodeErrorHandler");
+require("./server/handlers/nodeErrorHandler");
 const errorHandler = require("./server/handlers/routeErrorHandler");
 
 const app = express();
+const server = http.createServer(app);
 
 const PORT = config.port || 5000;
 const DB = config.mongoURI;
@@ -39,13 +41,15 @@ mongoose.connect(DB, {
     app.use("/" + route.split(".")[0], require("./server/routes/" + route));
   }
 
-  app.use((err, req, res, next) => {
+  app.use((err, req, res) => {
     console.error(err);
 
     errorHandler(res, "Interal server error");
   });
 
-  app.listen(PORT, () => console.info(`Server running on port ${PORT}`));
+  require("./server/lib/sockets")(server);
+
+  server.listen(PORT, () => console.info(`Server running on port ${PORT}`));
 })
   .catch(err => console.error("Error setting up connection to MongoDB", err));
 

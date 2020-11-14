@@ -3,7 +3,7 @@ module.exports = {
   mongoURI: process.env.MONGO_URI,
   maxAccounts: process.env.MAX_ACCOUNTS,
   bcrypt: {
-    rounds: prcoess.env.BCRYPT_ROUNDS
+    rounds: process.env.BCRYPT_ROUNDS
   },
   express: {
     session: {

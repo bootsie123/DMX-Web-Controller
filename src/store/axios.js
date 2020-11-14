@@ -33,7 +33,7 @@ http.interceptors.response.use(res => {
 }, err => {
   const originalRequest = err.config;
 
-  if (err.status === 401 && originalRequest.url === "auth/token") {
+  if ((err.status === 401 || err.status === 403) && originalRequest.url === "auth/token") {
     store.commit("auth/logout");
 
     router.push("/login");

@@ -46,7 +46,7 @@
       WheelSliders
     },
     created() {
-      this.$store.dispatch("settings/initialize");
+      //this.$store.dispatch("settings/initialize");
     }
   };
 </script>

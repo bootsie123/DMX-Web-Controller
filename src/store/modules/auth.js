@@ -1,6 +1,7 @@
 import jwt_decode from "jwt-decode";
 
 import axios from "../axios";
+import router from "@/router";
 
 const state = {
   user: {},
@@ -82,8 +83,6 @@ const actions = {
     const decodedToken = jwt_decode(accessToken);
     const timeUntilRefresh = (decodedToken.exp - Date.now() / 1000 - 5 * 60) * 1000;
 
-    console.log(timeUntilRefresh, decodedToken, decodedToken.exp, Date.now());
-
     const refreshTask = setTimeout(() => {
       console.log("Task Refresh");
 
@@ -91,6 +90,24 @@ const actions = {
     }, timeUntilRefresh);
 
     commit("set_refreshTask", refreshTask);
+  },
+  SOCKET_connect({ state }) {
+    this._vm.$socket.emit("authenticate", {
+      token: state.tokens.accessToken
+    });
+  },
+  async SOCKET_unauthorized({ dispatch, commit }, err) {
+    if (err.data.code === "invalid_token") {
+      await dispatch("refreshAuth");
+
+      this._vm.$socket.emit("authenticate", {
+        token: state.tokens.accessToken
+      });
+    } else {
+      commit("logout");
+
+      router.push("/login");
+    }
   }
 };
 
