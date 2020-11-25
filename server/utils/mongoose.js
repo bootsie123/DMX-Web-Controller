@@ -2,8 +2,6 @@ const mongoose = require("mongoose");
 
 const errorHandler = require("../handlers/routeErrorHandler");
 
-const mongo = mongoose.mongo;
-
 const utils = {
   validObjectId: id => {
     return mongoose.Types.ObjectId.isValid(id);

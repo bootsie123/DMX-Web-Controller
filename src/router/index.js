@@ -31,6 +31,14 @@ const routes = [
     ]
   },
   {
+    path: "/logout",
+    redirect: () => {
+      store.commit("auth/logout");
+
+      return "/login";
+    }
+  },
+  {
     path: '/dashboard',
     component: Dashboard,
     meta: { requiresAuth: true }

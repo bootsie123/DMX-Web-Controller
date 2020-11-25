@@ -1,6 +1,6 @@
 const request = require("request-promise-native");
 
-const API_ENDPOINT = require("../config").olaAPI;
+const API_ENDPOINT = require("../config").dmx.olaAPI;
 
 const defaultHeaders = {
   "Content-Type": "application/json",

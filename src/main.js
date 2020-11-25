@@ -8,12 +8,14 @@ import router from "./router";
 import VueSlider from "vue-slider-component";
 import "vue-slider-component/theme/default.css";
 
+const location = window.location;
+
 Vue.config.productionTip = false;
 
 require("./assets/main.scss");
 
 Vue.use(new VueSocketIO({
-  connection: process.env.VUE_APP_API_URL,
+  connection: location.protocol + "//" + location.hostname + ":" + process.env.VUE_APP_API_PORT,
   vuex: {
     store,
     actionPrefix: "SOCKET_",

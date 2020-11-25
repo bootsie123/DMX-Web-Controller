@@ -2,8 +2,10 @@ import axios from "axios";
 import router from "@/router";
 import store from "@/store";
 
+const location = window.location;
+
 const http = axios.create({
-  baseURL: process.env.VUE_APP_API_URL,
+  baseURL: location.protocol + "//" + location.hostname + ":" + process.env.VUE_APP_API_PORT,
   headers: {
     common: {
       "X-Version": process.env.VUE_APP_VERSION

@@ -22,9 +22,7 @@ const getters = {
 };
 
 const actions = {
-  SOCKET_get_dmx({ dispatch }, data) {
-    const { dmx } = data;
-
+  SOCKET_get_dmx({ dispatch }, dmx) {
     dispatch("RGB_to_HSLA", { red: dmx[0], green: dmx[1], blue: dmx[2] });
     dispatch("update_master", dmx[3]);
   },

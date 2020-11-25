@@ -6,7 +6,7 @@
       :value="value"
       @change="update_master"
       direction="btt"
-      :max="100"
+      :max="255"
       tooltip="always"
       :tooltip-formatter="formatter"
       height="350px"
@@ -19,8 +19,9 @@
     name: "MasterSlider",
     data() {
       return {
-
-        formatter: "{value}%"
+        formatter: val => {
+          return Math.floor(val/255 * 100) + "%";
+        }
       };
     },
     computed: {

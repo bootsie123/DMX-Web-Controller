@@ -55,10 +55,10 @@ const actions = {
       return Promise.reject(err);
     }
   },
-  async refreshAuth({ dispatch, commit }) {
+  async refreshAuth({ state, dispatch, commit }) {
     try {
       const data = {
-        refreshToken: this.state.auth.tokens.refreshToken
+        refreshToken: state.tokens.refreshToken
       };
 
       const res = await axios.post("auth/token", data);
@@ -78,6 +78,7 @@ const actions = {
   login_success({ dispatch, commit }, data) {
     dispatch("create_refreshTask", data.accessToken);
     commit("auth_success", data);
+    dispatch("SOCKET_connect");
   },
   create_refreshTask({ dispatch, commit }, accessToken) {
     const decodedToken = jwt_decode(accessToken);
@@ -92,9 +93,11 @@ const actions = {
     commit("set_refreshTask", refreshTask);
   },
   SOCKET_connect({ state }) {
-    this._vm.$socket.emit("authenticate", {
-      token: state.tokens.accessToken
-    });
+    if (state.tokens.accessToken) {
+      this._vm.$socket.emit("authenticate", {
+        token: state.tokens.accessToken
+      });
+    }
   },
   async SOCKET_unauthorized({ dispatch, commit }, err) {
     if (err.data.code === "invalid_token") {
