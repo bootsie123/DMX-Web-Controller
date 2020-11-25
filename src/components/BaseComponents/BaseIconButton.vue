@@ -13,10 +13,14 @@
   export default {
     name: "BaseIconButton",
     props: {
-      icon: String,
+      icon: {
+        type: String,
+        required: true
+      },
       iconHover: String,
       iconToggle: String,
-      iconToggleHover: String
+      iconToggleHover: String,
+      toggle: Boolean
     },
     data() {
       return {
@@ -26,16 +30,18 @@
     },
     computed: {
       classes() {
-        if (this.toggled) {
+        if (this.toggle && this.toggled) {
           return [ this.hover ? this.iconToggleHover : this.iconToggle ];
         } else {
-          return [ this.hover ? this.iconHover : this.icon ];
+          return [ this.hover ? this.iconHover || this.icon : this.icon ];
         }
       }
     },
     methods: {
       clicked(event) {
-        this.toggled = !this.toggled;
+        if (this.toggle) {
+          this.toggled = !this.toggled;
+        }
 
         this.$emit('click', event.target);
       }

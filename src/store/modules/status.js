@@ -1,7 +1,7 @@
 //import axios from "../axios";
 
 const state = {
-  status: "online",
+  status: "offline",
   lastUpdate: Date.now(),
   error: null
 };

@@ -5,7 +5,7 @@ const OLAAPI = require("../lib/OLAAPI");
 const auth = require("../middlewares/auth");
 const cleanBody = require("../middlewares/cleanBody");
 
-const errorHandler = require("../handlers/routeErrorHandler");
+const errorHandler = require("../handlers/routeErrorHandler"); //eslint-disable-line no-unused-vars
 
 const router = express.Router();
 

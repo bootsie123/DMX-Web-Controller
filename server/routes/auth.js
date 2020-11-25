@@ -1,6 +1,5 @@
 const express = require("express");
 
-const jwtConfig = require("../config").passport.strategies.jwt;
 const loginSignupLimitConfig = require("../config").express.rateLimiter.limiters.loginSignup;
 
 const cleanBody = require("../middlewares/cleanBody");
@@ -43,14 +42,11 @@ router.post("/", [ rateLimiterIpMiddleware, cleanBody ], async (req, res, next) 
     const userLimitKey = req.body.username + "-" + req.ip;
 
     const userRateLimit = rateLimiterLoginSignup.get(userLimitKey);
-    const ipRateLimit = rateLimiterIp.get(req.ip);
 
     if (userRateLimit !== null && userRateLimit.consumedPoints > loginSignupLimitConfig.points) {
       res.set("rety-after", Math.round(userRateLimit.msBeforeNext / 1000) || 1);
 
       return errorHandler(res, 429, "Too many requests");
-
-      //User out of consectutive login attempts. TODO: Send verification email
     }
 
     const { errors, valid } = validateLoginInput(req.body);

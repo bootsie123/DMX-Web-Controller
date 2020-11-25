@@ -46,7 +46,7 @@
       WheelSliders
     },
     created() {
-      //this.$store.dispatch("settings/initialize");
+      this.$socket.emit("get_dmx");
     }
   };
 </script>

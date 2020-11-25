@@ -1,4 +1,4 @@
-import axios from "../axios";
+//import axios from "../axios";
 import parse from "parse-color";
 
 const state = {
@@ -22,23 +22,11 @@ const getters = {
 };
 
 const actions = {
-  async initialize({ dispatch, commit }) {
-    try {
-      commit("update_start");
+  SOCKET_get_dmx({ dispatch }, data) {
+    const { dmx } = data;
 
-      const res = await axios.get("dmx");
-
-      if (res.data.status === 200) {
-        const dmx = res.data.dmx.dmx;
-
-        dispatch("RGB_to_HSLA", { red: dmx[0], green: dmx[1], blue: dmx[2] });
-        dispatch("update_master", dmx[3]);
-      }
-
-      commit("update_end");
-    } catch (err) {
-      commit("update_end");
-    }
+    dispatch("RGB_to_HSLA", { red: dmx[0], green: dmx[1], blue: dmx[2] });
+    dispatch("update_master", dmx[3]);
   },
   RGB_to_HSLA({ dispatch }, obj) {
     const HSLA = toHSLAFromRGB(obj).hsla;
@@ -48,18 +36,12 @@ const actions = {
     dispatch("update_luminosity", HSLA[2]);
     dispatch("update_alpha", HSLA[3]);
   },
-  async update_dmx({ commit }) {
-    try {
-      if (!state.updating) {
-        commit("update_start");
+  update_dmx() {
+    const dmx = toRGBFromHSLA(state).rgb;
 
-        await axios.post("dmx", { dmx: toRGBFromHSLA(state).rgb.join(",") + `,${state.master}` });
+    dmx.push(state.master);
 
-        commit("update_end");
-      }
-    } catch (err) {
-      commit("update_end");
-    }
+    this._vm.$socket.emit("set_dmx", { dmx });
   },
   update_hue({ commit, dispatch }, hue) {
     commit("update", { key: "hue", value: hue});
@@ -86,12 +68,6 @@ const actions = {
 const mutations = {
   update(state, payload) {
     state[payload.key] = payload.value;
-  },
-  update_start(state) {
-    state.updating = true;
-  },
-  update_end(state) {
-    state.updating = false;
   }
 };
 

@@ -18,8 +18,4 @@ module.exports = server => {
       require("../events/" + event)(socket);
     }
   });
-
-  setTimeout(() => {
-    io.sockets.emit("status", { status: "online" });
-  }, 30000);
 }

@@ -41,7 +41,7 @@ mongoose.connect(DB, {
     app.use("/" + route.split(".")[0], require("./server/routes/" + route));
   }
 
-  app.use((err, req, res) => {
+  app.use((err, req, res, next) => { //eslint-disable-line no-unused-vars
     console.error(err);
 
     errorHandler(res, "Interal server error");

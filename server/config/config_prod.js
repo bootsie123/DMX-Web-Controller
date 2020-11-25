@@ -1,6 +1,7 @@
 module.exports = {
   port: process.env.PORT,
   mongoURI: process.env.MONGO_URI,
+  olaAPI: process.env.OLA_API,
   maxAccounts: process.env.MAX_ACCOUNTS,
   bcrypt: {
     rounds: process.env.BCRYPT_ROUNDS

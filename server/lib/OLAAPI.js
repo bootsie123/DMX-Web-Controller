@@ -1,13 +1,13 @@
 const request = require("request-promise-native");
 
-const API_ENDPOINT = "https://c87d7c99-9e0c-401f-8b9e-b827eb246c20.my-devices.net/";
+const API_ENDPOINT = require("../config").olaAPI;
 
 const defaultHeaders = {
   "Content-Type": "application/json",
   "X-PTTH-Authorization": "Basic dGNzc3dpbUBnbWFpbC5jb206bXJQYXNzd29yZA=="
 };
 
-function fetch(url, form, method = "GET", headers = defaultHeaders) {
+function fetch(url, qs, method = "GET", headers = defaultHeaders) {
   var options = {
     url: API_ENDPOINT + url,
     method,
@@ -15,8 +15,8 @@ function fetch(url, form, method = "GET", headers = defaultHeaders) {
     json: true
   };
 
-  if (form) {
-    options.form = form;
+  if (qs) {
+    options.qs = qs;
   }
 
   return request(options);
@@ -25,6 +25,14 @@ function fetch(url, form, method = "GET", headers = defaultHeaders) {
 exports.serverStats = () => {
   return new Promise((resolve, reject) => {
     fetch("json/server_stats")
+      .then(resolve)
+      .catch(reject);
+  });
+}
+
+exports.reloadPlugins = () => {
+  return new Promise((resolve, reject) => {
+    fetch("reload")
       .then(resolve)
       .catch(reject);
   });
@@ -44,4 +52,12 @@ exports.setDMX = (universe, dmx) => {
       .then(resolve)
       .catch(reject);
   });
+}
+
+try {
+  this.reloadPlugins();
+
+  console.info("OLA plugins reloaded");
+} catch (err) {
+  console.error("Unable to reload plugins", err);
 }

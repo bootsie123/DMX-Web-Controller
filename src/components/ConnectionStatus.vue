@@ -29,8 +29,6 @@
         return this.statusColors[this.status];
       },
       statusText() {
-        console.log(this.timeLapsed);
-
         let time;
         let label;
 

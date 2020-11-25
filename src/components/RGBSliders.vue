@@ -1,15 +1,26 @@
 <template>
   <div>
-    <h1 class="title">COLOR PROPERTIES
-      <BaseIconButton
-        class="tooltipToggle"
-        icon="ri-eye-line"
-        iconHover="ri-eye-fill"
-        iconToggle="ri-eye-off-line"
-        iconToggleHover="ri-eye-off-fill"
-        @click="toggleTooltip"
-      >
-      </BaseIconButton>
+    <h1 class="title">
+      <span class="text">COLOR PROPERTIES</span>
+      <div class="buttonGroup">
+        <BaseIconButton
+          class="iconButton"
+          icon="ri-eye-line"
+          iconHover="ri-eye-fill"
+          iconToggle="ri-eye-off-line"
+          iconToggleHover="ri-eye-off-fill"
+          toggle
+          @click="toggleTooltip"
+        >
+        </BaseIconButton>
+        <BaseIconButton
+          class="iconButton"
+          icon="ri-refresh-line"
+          iconHover="ri-refresh-fill"
+          @click="refresh"
+        >
+        </BaseIconButton>
+      </div>
     </h1>
     <BaseRGBSlider
       label="R"
@@ -71,6 +82,10 @@
       },
       toggleTooltip() {
         this.tooltip = this.tooltip === "active" ? "always" : "active";
+      },
+      refresh() {
+        this.$socket.emit("status");
+        this.$socket.emit("get_dmx");
       }
     }
   }
@@ -83,8 +98,18 @@
     color: #979797ff;
   }
 
-  .tooltipToggle {
-    margin: 0 .5em;
+  .text {
+    margin-right: .5em;
+  }
+
+  .buttonGroup {
+    display: inline-block;
+    margin: .5em;
+    margin-left: 0em;
+  }
+
+  .iconButton {
+    margin: 0 .1em;
     font-weight: normal !important;
     vertical-align: text-bottom;
   }
