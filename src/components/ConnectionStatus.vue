@@ -9,7 +9,7 @@
 </template>
 
 <script>
-  import { mapGetters } from "vuex";
+  import { mapGetters, mapActions } from "vuex";
 
   export default {
     name: "ConnectionStatus",
@@ -46,9 +46,15 @@
       },
       ...mapGetters("status", [ "status", "lastUpdate", "error" ])
     },
+    methods: {
+      ...mapActions("status", ["set_error"])
+    },
     sockets: {
       authenticated() {
         this.$socket.emit("status");
+      },
+      connect_error(err) {
+        this.set_error(err);
       }
     },
     mounted() {

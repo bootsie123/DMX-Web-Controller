@@ -13,7 +13,9 @@ const getters = {
 };
 
 const actions = {
-
+  set_error({ commit }, err) {
+    commit("error", err);
+  }
 };
 
 const mutations = {
@@ -23,7 +25,7 @@ const mutations = {
     state.lastUpdate = Date.now();
   },
   error(state, err) {
-    state.error = err.error;
+    state.error = err.error || err;
     state.status = "error";
     state.lastUpdate = Date.now();
   }

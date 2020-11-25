@@ -55,7 +55,7 @@ const actions = {
       return Promise.reject(err);
     }
   },
-  async refreshAuth({ state, dispatch, commit }) {
+  async refresh_auth({ state, dispatch, commit }) {
     try {
       const data = {
         refreshToken: state.tokens.refreshToken
@@ -87,7 +87,7 @@ const actions = {
     const refreshTask = setTimeout(() => {
       console.log("Task Refresh");
 
-      dispatch("refreshAuth");
+      dispatch("refresh_auth");
     }, timeUntilRefresh);
 
     commit("set_refreshTask", refreshTask);
@@ -101,7 +101,7 @@ const actions = {
   },
   async SOCKET_unauthorized({ dispatch, commit }, err) {
     if (err.data.code === "invalid_token") {
-      await dispatch("refreshAuth");
+      await dispatch("refresh_auth");
 
       this._vm.$socket.emit("authenticate", {
         token: state.tokens.accessToken
