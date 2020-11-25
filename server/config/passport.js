@@ -1,7 +1,6 @@
-const fs = require("fs");
-const path = require("path");
-
 const strategies = require("../strategies");
+
+const User = require("../models/User");
 
 module.exports = passport => {
   for (let strategy of strategies) {

@@ -1,10 +1,8 @@
 const express = require("express");
-const bcrypt = require("bcryptjs");
 
 const maxAccounts = require("../config").maxAccounts;
 
 const cleanBody = require("../middlewares/cleanBody");
-const auth = require("../middlewares/auth");
 const rateLimiterIpMiddleware = require("../middlewares/rateLimiterIp");
 
 const validateRegisterInput = require("../validation/register");
@@ -13,8 +11,6 @@ const errorHandler = require("../handlers/routeErrorHandler");
 
 const User = require("../models/User");
 const AuthToken = require("../models/AuthToken");
-
-const { validateUserId } = require("../utils/mongoose");
 
 const router = express.Router();
 
@@ -33,7 +29,7 @@ router.post("/", [ rateLimiterIpMiddleware, cleanBody ], async (req, res, next) 
   try {
     const users = await User.estimatedDocumentCount();
 
-    if (users > maxAccounts) return errorHandler(res, 400, "Maximum accounts reached");
+    if (users >= maxAccounts) return errorHandler(res, 400, "Maximum accounts reached");
 
     let user = await User.findOne({ username });
 

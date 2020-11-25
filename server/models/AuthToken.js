@@ -54,22 +54,20 @@ AuthTokenSchema.statics.signRefreshToken = function(userId) {
   return jwt.sign(payload, jwtConfig.refreshSecretOrKey, { expiresIn: jwtConfig.refreshTokenExpiration });
 }
 
-AuthTokenSchema.methods.signRefreshToken = function(lastIp=this.initialIp) {
-  return new Promise(async (resolve, reject) => {
-    const newRefreshToken = AuthTokenSchema.statics.signRefreshToken(this.user._id);
+AuthTokenSchema.methods.signRefreshToken = async function(lastIp = this.initialIp) {
+  const newRefreshToken = AuthTokenSchema.statics.signRefreshToken(this.user._id);
 
-    this.refreshToken = newRefreshToken;
-    this.expireAt = new Date(this.expireAt.getTime() + ms(jwtConfig.refreshTokenExpiration));
-    this.lastIp = lastIp;
+  this.refreshToken = newRefreshToken;
+  this.expireAt = new Date(this.expireAt.getTime() + ms(jwtConfig.refreshTokenExpiration));
+  this.lastIp = lastIp;
 
-    try {
-      await this.save();
+  try {
+    await this.save();
 
-      resolve(newRefreshToken);
-    } catch (err) {
-      reject(err);
-    }
-  });
+    return Promise.resolve(newRefreshToken);
+  } catch (err) {
+    return Promise.reject(err);
+  }
 }
 
-module.exports = AuthToken = mongoose.model("authTokens", AuthTokenSchema);
+module.exports = AuthToken = mongoose.model("authTokens", AuthTokenSchema); //eslint-disable-line no-undef

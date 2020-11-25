@@ -56,4 +56,4 @@ UserSchema.methods.toAuthUserJSON = function() {
   };
 }
 
-module.exports = User = mongoose.model("users", UserSchema);
+module.exports = User = mongoose.model("users", UserSchema); //eslint-disable-line no-undef

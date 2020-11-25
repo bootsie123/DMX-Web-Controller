@@ -24,7 +24,7 @@ function auth(options, req, res, next) {
       if (options.optional) return next();
 
       return errorHandler(res, 401, "No bearer token");
-    };
+    }
 
     passport.authenticate("jwt", { session: false }, (err, user, info) => {
       if (err) return next(err);
