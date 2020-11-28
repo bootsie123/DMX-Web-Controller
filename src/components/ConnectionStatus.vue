@@ -59,6 +59,7 @@
     mounted() {
       this.interval = setInterval(() => {
         this.timeLapsed = Date.now() - this.lastUpdate;
+        this.$socket.emit("status");
       }, 10000);
     },
     destroyed() {
