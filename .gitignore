@@ -1,6 +1,8 @@
 .DS_Store
 node_modules
 /dist
+/actions/*
+!/actions/example.js
 
 # local env files
 .env.local

@@ -9,8 +9,7 @@
       :saturation="saturation"
       :alpha="alpha"
       variant="persistent"
-    >
-    </RadialColorPicker>
+    />
   </div>
 </template>
 
@@ -25,14 +24,14 @@
       RadialColorPicker
     },
     computed: {
-      ...mapGetters("settings", [ "hue", "saturation", "luminosity", "alpha" ])
+      ...mapGetters("dmx", ["hue", "saturation", "luminosity", "alpha"])
     },
     methods: {
       update_hue(event) {
-        this.$store.dispatch("settings/update_hue", event);
+        this.$store.dispatch("dmx/update_hue", event);
       }
     }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
@@ -51,6 +50,6 @@
 
 <style lang="scss">
   .rcp__palette.in {
-    transform: scale(.9999) !important;
+    transform: scale(0.9999) !important;
   }
 </style>

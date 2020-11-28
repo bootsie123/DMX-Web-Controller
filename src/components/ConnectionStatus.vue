@@ -5,7 +5,6 @@
       {{ status === "error" ? error.message : statusText }}
     </div>
   </div>
-
 </template>
 
 <script>
@@ -38,13 +37,13 @@
           time = Math.floor(this.timeLapsed / 60000);
           label = time > 1 ? "minutes" : "minute";
         } else {
-          time = Math.floor(this.timeLapsed / 60 * 60000);
+          time = Math.floor((this.timeLapsed / 60) * 60000);
           label = time > 1 ? "hours" : "hour";
         }
 
-        return `Last updated ${ time } ${ label } ago`;
+        return `Last updated ${time} ${label} ago`;
       },
-      ...mapGetters("status", [ "status", "lastUpdate", "error" ])
+      ...mapGetters("status", ["status", "lastUpdate", "error"])
     },
     methods: {
       ...mapActions("status", ["set_error"])
@@ -65,7 +64,7 @@
     destroyed() {
       clearInterval(this.interval);
     }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

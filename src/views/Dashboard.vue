@@ -25,6 +25,7 @@
           </div>
         </div>
       </div>
+      <ActionPanel />
     </section>
   </div>
 </template>
@@ -35,6 +36,7 @@
   import RGBSliders from "@/components/RGBSliders";
   import MasterSlider from "@/components/MasterSlider";
   import WheelSliders from "@/components/WheelSliders";
+  import ActionPanel from "@/components/ActionPanel";
 
   export default {
     name: "Dashboard",
@@ -43,17 +45,20 @@
       ColorPicker,
       RGBSliders,
       MasterSlider,
-      WheelSliders
+      WheelSliders,
+      ActionPanel
     },
-    created() {
-      this.$socket.emit("get_dmx");
+    sockets: {
+      authenticated() {
+        this.$socket.emit("get_dmx");
+      }
     }
   };
 </script>
 
 <style lang="scss" scoped>
   .brandName {
-    margin-left: .5em;
+    margin-left: 0.5em;
     border-bottom: 1px solid #4a4a4a;
     line-height: 2em;
     font-size: 1.5em;

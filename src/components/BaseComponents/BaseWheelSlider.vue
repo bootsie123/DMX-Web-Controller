@@ -6,8 +6,7 @@
     v-bind="$attrs"
     :processStyle="{ backgroundColor: color }"
     :tooltipStyle="{ backgroundColor: color, borderColor: color }"
-  >
-  </vue-slider>
+  />
 </template>
 
 <script>
@@ -21,7 +20,7 @@
         color: "#676767"
       };
     }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

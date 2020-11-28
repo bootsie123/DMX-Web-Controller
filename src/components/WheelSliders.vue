@@ -1,11 +1,11 @@
 <template>
   <div>
     <h1 class="title">LUMINOSITY</h1>
-    <BaseWheelSlider :value="luminosity" @input="update_luminosity"></BaseWheelSlider>
+    <BaseWheelSlider :value="luminosity" @input="update_luminosity" />
     <h1 class="title">SATURATION</h1>
-    <BaseWheelSlider :value="saturation" @input="update_saturation"></BaseWheelSlider>
+    <BaseWheelSlider :value="saturation" @input="update_saturation" />
     <h1 class="title">ALPHA</h1>
-    <BaseWheelSlider :value="alpha" @input="update_alpha" :interval="0.01" :min="0" :max="1"></BaseWheelSlider>
+    <BaseWheelSlider :value="alpha" @input="update_alpha" :interval="0.01" :min="0" :max="1" />
   </div>
 </template>
 
@@ -20,12 +20,12 @@
       BaseWheelSlider
     },
     computed: {
-      ...mapGetters("settings", [ "saturation", "luminosity", "alpha" ])
+      ...mapGetters("dmx", ["saturation", "luminosity", "alpha"])
     },
     methods: {
-      ...mapActions("settings", [ "update_luminosity", "update_saturation", "update_alpha", "update_rgb" ])
+      ...mapActions("dmx", ["update_luminosity", "update_saturation", "update_alpha", "update_rgb"])
     }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

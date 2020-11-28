@@ -66,8 +66,6 @@ http.interceptors.response.use(
           if (res.status === 200) {
             originalRequest.headers["x-auth-token"] = res.data.accessToken;
 
-            console.log("Retrying request", originalRequest);
-
             return http(originalRequest);
           }
         })

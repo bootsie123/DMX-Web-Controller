@@ -42,23 +42,23 @@ const actions = {
     this._vm.$socket.emit("set_dmx", { dmx });
   },
   update_hue({ commit, dispatch }, hue) {
-    commit("update", { key: "hue", value: hue});
+    commit("update", { key: "hue", value: hue });
     dispatch("update_dmx");
   },
   update_saturation({ commit, dispatch }, saturation) {
-    commit("update", { key: "saturation", value: saturation});
+    commit("update", { key: "saturation", value: saturation });
     dispatch("update_dmx");
   },
   update_luminosity({ commit, dispatch }, luminosity) {
-    commit("update", { key: "luminosity", value: luminosity});
+    commit("update", { key: "luminosity", value: luminosity });
     dispatch("update_dmx");
   },
   update_alpha({ commit, dispatch }, alpha) {
-    commit("update", { key: "alpha", value: alpha});
+    commit("update", { key: "alpha", value: alpha });
     dispatch("update_dmx");
   },
   update_master({ commit, dispatch }, master) {
-    commit("update", { key: "master", value: master});
+    commit("update", { key: "master", value: master });
     dispatch("update_dmx");
   }
 };
@@ -71,11 +71,11 @@ const mutations = {
 
 const toRGBFromHSLA = obj => {
   return parse(`hsla(${obj.hue},${obj.saturation}, ${obj.luminosity}, ${obj.alpha})`);
-}
+};
 
 const toHSLAFromRGB = obj => {
   return parse(`rgb(${obj.red},${obj.green},${obj.blue})`);
-}
+};
 
 export default {
   namespaced: true,

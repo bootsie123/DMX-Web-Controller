@@ -1,18 +1,35 @@
 <template>
   <div class="container">
-    <div class="spinner"></div>
+    <div v-if="traditional" class="spinner2">
+      <span class="icon">
+        <i class="ri-loader-4-line" />
+      </span>
+    </div>
+    <div v-else class="spinner"></div>
   </div>
 </template>
 
 <script>
   export default {
-    name: "Spinner"
-  }
+    name: "Spinner",
+    props: {
+      traditional: Boolean
+    }
+  };
 </script>
 
 <style lang="scss" scoped>
   .container {
     height: 3em;
+  }
+
+  .spinner2 {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    -webkit-animation: load2 2s linear infinite;
+    animation: load2 2s linear infinite;
   }
 
   .spinner,
@@ -24,6 +41,7 @@
     width: 1em;
     height: 2em;
   }
+
   .spinner {
     color: #363636;
     text-indent: -9999em;
@@ -36,20 +54,24 @@
     -webkit-animation-delay: -0.16s;
     animation-delay: -0.16s;
   }
+
   .spinner:before,
   .spinner:after {
     position: absolute;
     top: 0;
-    content: '';
+    content: "";
   }
+
   .spinner:before {
     left: -1.5em;
     -webkit-animation-delay: -0.32s;
     animation-delay: -0.32s;
   }
+
   .spinner:after {
     left: 1.5em;
   }
+
   @-webkit-keyframes load1 {
     0%,
     80%,
@@ -62,6 +84,7 @@
       height: 3em;
     }
   }
+
   @keyframes load1 {
     0%,
     80%,
@@ -72,6 +95,18 @@
     40% {
       box-shadow: 0 -2em;
       height: 3em;
+    }
+  }
+
+  @-webkit-keyframes load2 {
+    100% {
+      -webkit-transform: rotate(360deg);
+    }
+  }
+
+  @keyframes load2 {
+    100% {
+      transform: rotate(360deg);
     }
   }
 </style>

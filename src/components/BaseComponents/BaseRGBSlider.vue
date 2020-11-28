@@ -12,8 +12,7 @@
         v-bind="$attrs"
         :processStyle="{ backgroundColor: color }"
         :tooltipStyle="{ backgroundColor: color, borderColor: color }"
-      >
-      </vue-slider>
+      />
     </div>
   </div>
 </template>
@@ -29,7 +28,7 @@
       },
       value: Number
     }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

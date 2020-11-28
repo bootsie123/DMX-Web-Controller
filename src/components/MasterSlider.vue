@@ -10,7 +10,7 @@
       tooltip="always"
       :tooltip-formatter="formatter"
       height="350px"
-    ></vue-slider>
+    />
   </div>
 </template>
 
@@ -20,21 +20,21 @@
     data() {
       return {
         formatter: val => {
-          return Math.floor(val/255 * 100) + "%";
+          return Math.floor((val / 255) * 100) + "%";
         }
       };
     },
     computed: {
       value() {
-        return this.$store.state.settings.master;
+        return this.$store.state.dmx.master;
       }
     },
     methods: {
       update_master(event) {
-        this.$store.dispatch("settings/update_master", event);
+        this.$store.dispatch("dmx/update_master", event);
       }
     }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

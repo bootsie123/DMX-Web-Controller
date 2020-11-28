@@ -16,4 +16,4 @@ exports.setDMX = (universe, dmx) => {
   } else {
     senders[universe].send(dmx);
   }
-}
+};
