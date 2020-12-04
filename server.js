@@ -21,7 +21,7 @@ const errorHandler = require("./server/handlers/routeErrorHandler");
 const app = express();
 const server = http.createServer(app);
 
-const PORT = config.port || 5000;
+const PORT = config.port || 8080;
 const DB = config.mongoURI;
 
 const production = app.get("env") === "production";
@@ -86,5 +86,9 @@ app.use(cors({ origin: expressConfig.cors.origin }));
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(
+  express.static("dist")
+);
 
 passportConfig(passport);
