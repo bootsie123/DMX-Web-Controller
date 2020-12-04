@@ -1,10 +1,13 @@
 const request = require("request-promise-native");
 
-const API_ENDPOINT = require("../config").dmx.olaAPI;
+let API_ENDPOINT = require("../config").dmx.olaAPI;
+
+if (API_ENDPOINT[API_ENDPOINT.length - 1] !== "/") {
+  API_ENDPOINT = API_ENDPOINT + "/";
+}
 
 const defaultHeaders = {
-  "Content-Type": "application/json",
-  "X-PTTH-Authorization": "Basic dGNzc3dpbUBnbWFpbC5jb206bXJQYXNzd29yZA=="
+  "Content-Type": "application/json"
 };
 
 function fetch(url, qs, method = "GET", headers = defaultHeaders) {

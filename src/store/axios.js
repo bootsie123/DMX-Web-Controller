@@ -5,7 +5,7 @@ import store from "@/store";
 const location = window.location;
 
 const http = axios.create({
-  baseURL: location.protocol + "//" + location.hostname + ":" + process.env.VUE_APP_API_PORT,
+  baseURL: location.protocol + "//" + location.hostname + ":" + location.port,
   headers: {
     common: {
       "X-Version": process.env.VUE_APP_VERSION

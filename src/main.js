@@ -15,7 +15,7 @@ Vue.config.productionTip = false;
 require("./assets/main.scss");
 
 Vue.use(new VueSocketIO({
-  connection: location.protocol + "//" + location.hostname + ":" + process.env.VUE_APP_API_PORT,
+  connection: location.protocol + "//" + location.hostname + ":" + location.port,
   vuex: {
     store,
     actionPrefix: "SOCKET_",

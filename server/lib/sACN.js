@@ -1,6 +1,10 @@
 const ACNSender = require("stagehack-sacn").Sender;
 
-ACNSender.Start();
+const interfaces = new ACNSender.Universe(1, 100).getPossibleInterfaces();
+
+ACNSender.Start({ interfaces });
+
+console.info("Sending DMX on interfaces:", interfaces);
 
 const senders = {};
 

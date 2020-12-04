@@ -1,4 +1,7 @@
 const config = require("./server/config");
+
+console.info("Loaded config:", config);
+
 const express = require("express");
 const http = require("http");
 const session = require("express-session");
@@ -9,6 +12,7 @@ const passport = require("passport");
 const compression = require("compression");
 const helmet = require("helmet");
 const cors = require("cors");
+const history = require("connect-history-api-fallback");
 const fs = require("fs");
 
 const expressConfig = config.express;
@@ -21,7 +25,7 @@ const errorHandler = require("./server/handlers/routeErrorHandler");
 const app = express();
 const server = http.createServer(app);
 
-const PORT = config.port || 8080;
+const PORT = config.port;
 const DB = config.mongoURI;
 
 const production = app.get("env") === "production";
@@ -51,6 +55,10 @@ mongoose
     });
 
     require("./server/lib/sockets").init(server);
+
+    app.use(
+      express.static("dist")
+    );
 
     server.listen(PORT, () => console.info(`Server running on port ${PORT}`));
   })
@@ -83,12 +91,9 @@ app.use(compression());
 app.use(helmet({ policy: "same-origin" }));
 app.use(mongoSanitzie({ replaceWith: "_" }));
 app.use(cors({ origin: expressConfig.cors.origin }));
+app.use(history());
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.use(
-  express.static("dist")
-);
 
 passportConfig(passport);
