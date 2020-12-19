@@ -4,6 +4,7 @@ dist
 data
 actions/*
 !/actions/example.js
+*.zip
 
 # local env files
 .env.local
