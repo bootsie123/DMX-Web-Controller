@@ -72,7 +72,7 @@
     "vuex": "^3.4.0"
   },
   "engines": {
-    "node": ">=10.5"
+    "node": ">=12"
   },
   "eslintConfig": {
     "root": true,

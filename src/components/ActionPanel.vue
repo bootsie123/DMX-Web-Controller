@@ -95,8 +95,10 @@
   }
 
   .pulloutToggle {
-    box-shadow: 0 0 10px 0px #8a8a8a57;
     margin-right: 0.5em;
+
+    box-shadow: 0 0 10px 0px #8a8a8a57;
+    background-color: #fff;
     z-index: 105;
   }
 
