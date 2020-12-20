@@ -7,12 +7,16 @@ const actions = [];
 let runningAction = {};
 
 for (let i in actionFiles) {
-  const action = require("../../actions/" + actionFiles[i]);
+  try {
+    const action = require("../../actions/" + actionFiles[i]);
 
-  action.id = i;
-  action.fileName = actionFiles[i];
+    action.id = i;
+    action.fileName = actionFiles[i];
 
-  actions.push(action);
+    actions.push(action);
+  } catch (err) {
+    console.error(`Error loading action ${actionFiles[i]}:`, err);
+  }
 }
 
 exports.getActions = () => {
