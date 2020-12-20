@@ -7,7 +7,8 @@ const state = {
   saturation: 100,
   alpha: 1,
   master: 0,
-  updating: false
+  updating: false,
+  initialFetch: false
 };
 
 const getters = {
@@ -22,9 +23,13 @@ const getters = {
 };
 
 const actions = {
-  SOCKET_get_dmx({ dispatch }, dmx) {
+  SOCKET_get_dmx({ state, dispatch, commit }, dmx) {
     dispatch("RGB_to_HSLA", { red: dmx[0], green: dmx[1], blue: dmx[2] });
     dispatch("update_master", dmx[3]);
+
+    if (!state.initialFetch) {
+      commit("complete_initial_fetch");
+    }
   },
   RGB_to_HSLA({ dispatch }, obj) {
     const HSLA = toHSLAFromRGB(obj).hsla;
@@ -34,12 +39,14 @@ const actions = {
     dispatch("update_luminosity", HSLA[2]);
     dispatch("update_alpha", HSLA[3]);
   },
-  update_dmx() {
-    const dmx = toRGBFromHSLA(state).rgb;
+  update_dmx({ state }) {
+    if (state.initialFetch) {
+      const dmx = toRGBFromHSLA(state).rgb;
 
-    dmx.push(state.master);
+      dmx.push(state.master);
 
-    this._vm.$socket.emit("set_dmx", { dmx });
+      this._vm.$socket.emit("set_dmx", { dmx });
+    }
   },
   update_hue({ commit, dispatch }, hue) {
     commit("update", { key: "hue", value: hue });
@@ -66,6 +73,9 @@ const actions = {
 const mutations = {
   update(state, payload) {
     state[payload.key] = payload.value;
+  },
+  complete_initial_fetch(state) {
+    state.initialFetch = true;
   }
 };
 
