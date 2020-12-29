@@ -1,19 +1,19 @@
 <template>
   <div class="background">
     <nav class="navbar2" role="navigation" aria-label="main navigation">
-      <div class="container2">
+      <div class="is-flex">
         <h1 class="brandName">DMX Web Controller</h1>
       </div>
-      <div class="container2">
+      <div class="is-flex">
         <ConnectionStatus></ConnectionStatus>
       </div>
-      <div class="navbar-end">
-        <a @click="toOLA" class="navbar-item"> OLA </a>
+      <div class="is-flex">
+        <a @click="toOLA" class="OLA navbar-item">OLA</a>
       </div>
     </nav>
     <section class="hero is-fullheight-with-navbar">
       <div class="hero-body">
-        <div class="container3">
+        <div class="container2">
           <div class="columns is-centered is-multiline">
             <div class="column widthLimit">
               <RGBSliders class="RGBSliders"></RGBSliders>
@@ -77,15 +77,10 @@
   .navbar2 {
     display: flex;
     min-height: 3.25rem;
+    justify-content: space-between;
   }
 
   .container2 {
-    display: flex;
-    width: 100%;
-    align-items: stretch;
-  }
-
-  .container3 {
     width: 100%;
     margin: auto;
   }
@@ -105,5 +100,10 @@
 
   .widthLimit {
     max-width: 500px;
+  }
+
+  .OLA {
+    max-height: 52px;
+    padding: 0.5em 1.5em;
   }
 </style>
