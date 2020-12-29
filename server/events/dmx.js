@@ -21,6 +21,9 @@ module.exports = socket => {
 
       sACN.setDMX(universe, dmxUtils.mapToMode(mode, dmx));
     })
+    .on("get_olaEndpoint", () => {
+      socket.emit("get_olaEndpoint", OLAAPI.getAPIEndpoint());
+    })
     .on("status", async universe => {
       try {
         await OLAAPI.serverStats(universe || 1);

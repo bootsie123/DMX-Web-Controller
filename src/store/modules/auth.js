@@ -85,8 +85,6 @@ const actions = {
     const timeUntilRefresh = (decodedToken.exp - Date.now() / 1000 - 5 * 60) * 1000;
 
     const refreshTask = setTimeout(() => {
-      console.log("Task Refresh");
-
       dispatch("refresh_auth");
     }, timeUntilRefresh);
 

@@ -27,35 +27,31 @@ function fetch(url, qs, method = "GET", headers = defaultHeaders) {
 
 exports.serverStats = () => {
   return new Promise((resolve, reject) => {
-    fetch("json/server_stats")
-      .then(resolve)
-      .catch(reject);
+    fetch("json/server_stats").then(resolve).catch(reject);
   });
-}
+};
+
+exports.getAPIEndpoint = () => {
+  return API_ENDPOINT;
+};
 
 exports.reloadPlugins = () => {
   return new Promise((resolve, reject) => {
-    fetch("reload")
-      .then(resolve)
-      .catch(reject);
+    fetch("reload").then(resolve).catch(reject);
   });
-}
+};
 
 exports.getDMX = universe => {
   return new Promise((resolve, reject) => {
-    fetch("get_dmx", { u: universe })
-      .then(resolve)
-      .catch(reject);
+    fetch("get_dmx", { u: universe }).then(resolve).catch(reject);
   });
-}
+};
 
 exports.setDMX = (universe, dmx) => {
   return new Promise((resolve, reject) => {
-    fetch("set_dmx", { u: universe, d: dmx }, "POST")
-      .then(resolve)
-      .catch(reject);
+    fetch("set_dmx", { u: universe, d: dmx }, "POST").then(resolve).catch(reject);
   });
-}
+};
 
 try {
   this.reloadPlugins();

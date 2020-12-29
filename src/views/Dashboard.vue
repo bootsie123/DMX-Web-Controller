@@ -7,6 +7,9 @@
       <div class="container2">
         <ConnectionStatus></ConnectionStatus>
       </div>
+      <div class="navbar-end">
+        <a @click="toOLA" class="navbar-item"> OLA </a>
+      </div>
     </nav>
     <section class="hero is-fullheight-with-navbar">
       <div class="hero-body">
@@ -51,6 +54,12 @@
     sockets: {
       authenticated() {
         this.$socket.emit("get_dmx");
+        this.$socket.emit("get_olaEndpoint");
+      }
+    },
+    methods: {
+      toOLA() {
+        window.location = this.$store.state.dmx.olaEndpoint;
       }
     }
   };

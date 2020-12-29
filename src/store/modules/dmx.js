@@ -8,7 +8,8 @@ const state = {
   alpha: 1,
   master: 0,
   updating: false,
-  initialFetch: false
+  initialFetch: false,
+  olaEndpoint: ""
 };
 
 const getters = {
@@ -19,7 +20,8 @@ const getters = {
   alpha: state => state.alpha,
   red: state => toRGBFromHSLA(state).rgb[0],
   green: state => toRGBFromHSLA(state).rgb[1],
-  blue: state => toRGBFromHSLA(state).rgb[2]
+  blue: state => toRGBFromHSLA(state).rgb[2],
+  olaEndpoint: state => state.olaEndpoint
 };
 
 const actions = {
@@ -30,6 +32,9 @@ const actions = {
     if (!state.initialFetch) {
       commit("complete_initial_fetch");
     }
+  },
+  SOCKET_get_olaEndpoint({ commit }, endpoint) {
+    commit("set_olaEndpoint", endpoint);
   },
   RGB_to_HSLA({ dispatch }, obj) {
     const HSLA = toHSLAFromRGB(obj).hsla;
@@ -73,6 +78,9 @@ const actions = {
 const mutations = {
   update(state, payload) {
     state[payload.key] = payload.value;
+  },
+  set_olaEndpoint(state, endpoint) {
+    state.olaEndpoint = endpoint;
   },
   complete_initial_fetch(state) {
     state.initialFetch = true;

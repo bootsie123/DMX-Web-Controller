@@ -1,11 +1,5 @@
 <template>
-  <span
-    class="icon"
-    :class="{ round }"
-    @mouseover="hover = true"
-    @mouseleave="hover = false"
-    @click="clicked"
-  >
+  <span class="icon" :class="{ round }" @mouseover="hover = true" @mouseleave="hover = false" @click="clicked">
     <i :class="classes" />
   </span>
 </template>
@@ -33,9 +27,9 @@
     computed: {
       classes() {
         if (this.toggle && this.toggled) {
-          return [ this.hover ? this.iconToggleHover || this.iconToggle : this.iconToggle ];
+          return [this.hover ? this.iconToggleHover || this.iconToggle : this.iconToggle];
         } else {
-          return [ this.hover ? this.iconHover || this.icon : this.icon ];
+          return [this.hover ? this.iconHover || this.icon : this.icon];
         }
       }
     },
@@ -45,14 +39,18 @@
           this.toggled = !this.toggled;
         }
 
-        this.$emit('click', event.target);
+        this.$emit("click", event.target);
       }
     }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>
   .round {
     border-radius: 50%;
+  }
+
+  .icon:hover {
+    cursor: pointer;
   }
 </style>
