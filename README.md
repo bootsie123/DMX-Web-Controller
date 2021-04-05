@@ -4,8 +4,8 @@ DMX Web Controller is a simple and easy to use web UI for changing the colors of
 
 \*Please note this project is built around [Open Lighting Architecture (OLA)](https://www.openlighting.org/). However, compatibility with other systems may be expanded upon in the feature.
 
-# Dashboard
+## Dashboard
 ![](assets/dashboard.png)
 
-# Login
+## Login
 ![](assets/login.png)
