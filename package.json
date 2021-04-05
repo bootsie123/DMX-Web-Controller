@@ -1,6 +1,6 @@
 {
   "name": "dmx-web-controller",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "A small web-based DMX controller for OLA",
   "main": "./src/main.js",
   "scripts": {
