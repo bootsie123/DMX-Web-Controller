@@ -8,7 +8,7 @@
         <ConnectionStatus></ConnectionStatus>
       </div>
       <div class="is-flex">
-        <a @click="toOLA" class="OLA navbar-item">OLA</a>
+        <a :href="ola" class="OLA navbar-item">OLA</a>
       </div>
     </nav>
     <section class="hero is-fullheight-with-navbar">
@@ -57,9 +57,12 @@
         this.$socket.emit("get_olaEndpoint");
       }
     },
-    methods: {
-      toOLA() {
-        window.location = this.$store.state.dmx.olaEndpoint;
+    computed: {
+      ola() {
+        const location = window.location;
+        const olaEndpoint = this.$store.state.dmx.olaEndpoint;
+
+        return location.protocol + "//" + location.hostname + ":" + olaEndpoint.split(":")[2];
       }
     }
   };
